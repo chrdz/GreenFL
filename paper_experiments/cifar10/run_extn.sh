@@ -93,7 +93,7 @@ cifar10 \
 --n_rounds ${n_rounds} \
 --participation_probs 1.0 ${participation} \
 --model_name custom \
---bz 64 \
+--bz 128 \
 --lr ${lr} \
 --log_freq 1 \
 --device ${device} \
@@ -129,7 +129,7 @@ cifar10 \
 --n_rounds ${n_rounds} \
 --participation_probs 1.0 ${participation} \
 --model_name custom \
---bz 64 \
+--bz 128 \
 --lr ${lr} \
 --log_freq 1 \
 --device ${device} \
