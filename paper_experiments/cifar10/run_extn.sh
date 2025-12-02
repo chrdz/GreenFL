@@ -44,7 +44,7 @@ echo "=> training"
 
 ### - Parameters to choose for training - ###
 ### - Only change here - ###
-availabilities="alphaF-120sl-1cb-3ft alphaF-120sl-2cb-3ft alphaF-120sl-3cb-3ft alphaF-120sl-4cb-3ft alphaF-120sl-5cb-3ft alphaF-120sl-6cb-3ft alphaF-140sl-1cb-3ft alphaF-140sl-2cb-3ft alphaF-140sl-3cb-3ft alphaF-140sl-4cb-3ft alphaF-140sl-5cb-3ft alphaF-140sl-6cb-3ft alphaF-160sl-1cb-3ft alphaF-160sl-2cb-3ft alphaF-160sl-3cb-3ft alphaF-160sl-4cb-3ft alphaF-160sl-5cb-3ft alphaF-160sl-6cb-3ft alphaF-180sl-1cb-3ft alphaF-180sl-2cb-3ft alphaF-180sl-3cb-3ft alphaF-180sl-4cb-3ft alphaF-180sl-5cb-3ft alphaF-180sl-6cb-3ft alphaF-180sl-7cb-3ft alphaF-200sl-1cb-3ft alphaF-200sl-2cb-3ft alphaF-200sl-3cb-3ft alphaF-200sl-4cb-3ft alphaF-200sl-5cb-3ft alphaF-200sl-6cb-3ft alphaF-200sl-7cb-3ft" # list of availability matrices
+availabilities="alphaF-0cb-3ft alphaF-120sl-1cb-3ft alphaF-120sl-2cb-3ft alphaF-120sl-3cb-3ft alphaF-120sl-4cb-3ft alphaF-120sl-5cb-3ft alphaF-120sl-6cb-3ft alphaF-140sl-1cb-3ft alphaF-140sl-2cb-3ft alphaF-140sl-3cb-3ft alphaF-140sl-4cb-3ft alphaF-140sl-5cb-3ft alphaF-140sl-6cb-3ft alphaF-160sl-1cb-3ft alphaF-160sl-2cb-3ft alphaF-160sl-3cb-3ft alphaF-160sl-4cb-3ft alphaF-160sl-5cb-3ft alphaF-160sl-6cb-3ft alphaF-180sl-1cb-3ft alphaF-180sl-2cb-3ft alphaF-180sl-3cb-3ft alphaF-180sl-4cb-3ft alphaF-180sl-5cb-3ft alphaF-180sl-6cb-3ft alphaF-180sl-7cb-3ft alphaF-200sl-1cb-3ft alphaF-200sl-2cb-3ft alphaF-200sl-3cb-3ft alphaF-200sl-4cb-3ft alphaF-200sl-5cb-3ft alphaF-200sl-6cb-3ft alphaF-200sl-7cb-3ft" # list of availability matrices
 fl_algo="fedavg" # list of FL algorithms
 biased="2" # 0:unbiased, 1:biased, 2:hybrid (unbiased except when all clients available)
 fine_tuning=3 # Change this to # of finetuning step
