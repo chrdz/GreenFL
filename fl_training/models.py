@@ -48,22 +48,42 @@ class MnistCNN(nn.Module):
         return x
 
 
+# class Cifar10CNN(nn.Module):
+#     def __init__(self, num_classes):
+#         super(Cifar10CNN, self).__init__()
+#         self.conv1 = nn.Conv2d(3, 32, 5)
+#         self.pool = nn.MaxPool2d(2, 2)
+#         self.conv2 = nn.Conv2d(32, 64, 5)
+#         self.fc1 = nn.Linear(64 * 5 * 5, 2048)
+#         self.output = nn.Linear(2048, num_classes)
+
+#     def forward(self, x):
+#         x = self.pool(F.relu(self.conv1(x)))
+#         x = self.pool(F.relu(self.conv2(x)))
+#         x = x.view(-1, 64 * 5 * 5)
+#         x = F.relu(self.fc1(x))
+#         x = self.output(x)
+#         return x
+    
 class Cifar10CNN(nn.Module):
     def __init__(self, num_classes):
-        super(Cifar10CNN, self).__init__()
-        self.conv1 = nn.Conv2d(3, 32, 5)
-        self.pool = nn.MaxPool2d(2, 2)
-        self.conv2 = nn.Conv2d(32, 64, 5)
-        self.fc1 = nn.Linear(64 * 5 * 5, 2048)
-        self.output = nn.Linear(2048, num_classes)
+        super().__init__()
+        self.conv1 = nn.Conv2d(3, 32, 5, padding=2)         
+        self.bn1   = nn.BatchNorm2d(32)
+        self.pool  = nn.MaxPool2d(2, 2)
+        self.conv2 = nn.Conv2d(32, 64, 5, padding=2)
+        self.bn2   = nn.BatchNorm2d(64)
+        self.fc1   = nn.Linear(64 * 8 * 8, 256)             
+        self.drop  = nn.Dropout(0.3)
+        self.out   = nn.Linear(256, num_classes)
 
     def forward(self, x):
-        x = self.pool(F.relu(self.conv1(x)))
-        x = self.pool(F.relu(self.conv2(x)))
-        x = x.view(-1, 64 * 5 * 5)
+        x = self.pool(F.relu(self.bn1(self.conv1(x))))
+        x = self.pool(F.relu(self.bn2(self.conv2(x))))
+        x = x.flatten(1)
         x = F.relu(self.fc1(x))
-        x = self.output(x)
-        return x
+        x = self.drop(x)
+        return self.out(x)
 
 
 class FemnistCNN(nn.Module):
@@ -190,5 +210,11 @@ def get_resnet18(num_classes):
 
     num_features = model.fc.in_features
     model.fc = nn.Linear(num_features, num_classes)
+
+    return model
+
+def get_custom_model(num_classes=10):
+    model = Cifar10CNN(num_classes=num_classes)
+    # replace_batchnorm_with_groupnorm(model, max_groups=32)
 
     return model
