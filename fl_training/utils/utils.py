@@ -25,7 +25,7 @@ def get_data_dir(experiment_name):
     :param experiment_name: name of the experiment
     :return: str
     """
-    data_dir = os.path.join("data", experiment_name, "all_data")
+    data_dir = os.path.join("fl_training", "data", experiment_name, "all_data")
 
     return data_dir
 

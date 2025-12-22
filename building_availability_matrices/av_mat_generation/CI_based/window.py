@@ -9,8 +9,20 @@ import cvxpy as cp
 import numpy as np
 from matplotlib.colors import ListedColormap
 import seaborn as sns
-from av_mat_generation.CI_based.greedy import GreedyProblem
+from building_availability_matrices.av_mat_generation.CI_based.greedy import GreedyProblem
 from math import ceil
+
+from pathlib import Path
+import pandas as pd
+
+# Directory of this file: .../building_availability_matrices/av_mat_generation/CI_based
+_THIS_DIR = Path(__file__).resolve().parent
+
+# Root of building_availability_matrices
+_BUILDING_AVAIL_DIR = _THIS_DIR.parent.parent
+
+# Directory with the historical CSVs
+HISTORICAL_DATA_DIR = _BUILDING_AVAIL_DIR / "historical_data"
 
 LIST_COLORS = ["blue", "green", "orange", "red", "purple", "pink", "yellow"]
 COUNTRIES = [
@@ -45,7 +57,7 @@ def load_data(countries=None):
     """
 
     # prepare links to the data csv files
-    folder = "historical_data"
+    folder = HISTORICAL_DATA_DIR
     _paths = {
         "Germany": os.path.join(folder, "DE_2022_hourly.csv"),
         "Austria": os.path.join(folder, "AT_2022_hourly.csv"),

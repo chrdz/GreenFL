@@ -352,7 +352,7 @@ def get_mnist():
         mnist_data, mnist_targets
 
     """
-    mnist_path = os.path.join("data", "mnist", "raw_data")
+    mnist_path = os.path.join("fl_training", "data", "mnist", "raw_data")
     assert os.path.isdir(mnist_path), "Download MNIST dataset!!"
 
     mnist_train =\
