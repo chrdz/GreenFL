@@ -65,6 +65,10 @@ from fl_training.utils.utils import get_data_dir, get_loaders, get_learner  # ty
 from building_availability_matrices.av_mat_generation.CI_based.window import Window  # type: ignore
 
 
+_3FT_CB = [7.980065999999999,6.1960109999999995,4.235079,1.983414,1.773765,0.9428550000000001,0.7447260000000001]
+_1FT_CB = [7.980065999999999,6.1960109999999995,4.235079,1.983414,0.9428550000000001,0.7447260000000001,0.5575350000000001]
+
+
 @dataclass
 class OfflineProbeClient:
     """Minimal client representation used during offline probing."""
@@ -90,7 +94,7 @@ def parse_args() -> argparse.Namespace:
     p.add_argument("--t-sl", type=int, required=True, help="Slack time (rounds).")
     p.add_argument("--t-ft", type=int, required=True, help="Fine-tuning window length (rounds).")
     p.add_argument("--alpha", type=float, default=0.1, help="Alpha for Problem 1 objective.")
-    p.add_argument("--budget", type=float, required=True, help="Carbon budget k.")
+    p.add_argument("--budget", type=int, required=True, help="Index of Carbon budget k.")
     p.add_argument("--countries", type=str, required=True, help="Comma-separated list (must match CI dataset keys).")
 
     # ---- Window / CI data options
@@ -589,10 +593,13 @@ def main() -> None:
     np.random.seed(args.seed)
     torch.manual_seed(args.seed)
 
+    _actual_budget = _3FT_CB[args.budget] if args.t_ft == 3 else _1FT_CB[args.budget]
+    
     if args.verbose:
         print("Arguments:")
         for k, v in vars(args).items():
             print(f"  {k}: {v}")
+        print(f"  Carbon budget: {_actual_budget}")
 
     countries = parse_countries(args.countries)
     if args.verbose:
@@ -613,22 +620,22 @@ def main() -> None:
 
     if args.verbose:
         print("==> Solving Problem 1 (alpha-fairness) with greedy..")
-    res1 = solve_problem1_alpha_fair_greedy(GHG_mat, args.T, args.t_sl, args.t_ft, args.alpha, args.budget, args.s_step)
+    res1 = solve_problem1_alpha_fair_greedy(GHG_mat, args.T, args.t_sl, args.t_ft, args.alpha, _actual_budget, args.s_step)
 
     if args.verbose:
         print("==> Solving Problem 2 (CAFE-like) with greedy..")
-    res2 = solve_problem2_cafe_greedy(GHG_mat, D, args.T, args.t_sl, args.t_ft, args.budget, args.s_step)
+    res2 = solve_problem2_cafe_greedy(GHG_mat, D, args.T, args.t_sl, args.t_ft, _actual_budget, args.s_step)
 
     if args.verbose:
         print("==> Solving Problem 3 (FedZero-like) with greedy..")
-    res3 = solve_problem3_fedzero_greedy(GHG_mat, sigma, args.T, args.t_sl, args.t_ft, args.budget, args.s_step)
+    res3 = solve_problem3_fedzero_greedy(GHG_mat, sigma, args.T, args.t_sl, args.t_ft, _actual_budget, args.s_step)
 
     out_dir = Path(args.out_dir)
     prefix = args.name_prefix.strip() or f"T-{args.T}_tsl-{args.t_sl}_tft-{args.t_ft}_k-{args.budget}"
 
-    csv1, npy1 = save_availability(res1.A_full, row_labels, out_dir, f"{prefix}_prob1_alphaFair", args.T, res1.s_best)
-    csv2, npy2 = save_availability(res2.A_full, row_labels, out_dir, f"{prefix}_prob2_CAFE", args.T, res2.s_best)
-    csv3, npy3 = save_availability(res3.A_full, row_labels, out_dir, f"{prefix}_prob3_FedZero", args.T, res3.s_best)
+    csv1, npy1 = save_availability(res1.A_full, row_labels, out_dir, f"{prefix}_prob1_alphaFair_{args.budget+1}cb_{args.t_ft}ft", args.T, res1.s_best)
+    csv2, npy2 = save_availability(res2.A_full, row_labels, out_dir, f"{prefix}_prob2_CAFE_{args.budget+1}cb_{args.t_ft}ft", args.T, res2.s_best)
+    csv3, npy3 = save_availability(res3.A_full, row_labels, out_dir, f"{prefix}_prob3_FedZero_{args.budget+1}cb_{args.t_ft}ft", args.T, res3.s_best)
 
     print("[GreenFL] Saved availability matrices:")
     print(f"  Problem 1 CSV: {csv1}")
@@ -649,7 +656,7 @@ def main() -> None:
             T=args.T,
             t_ft=args.t_ft,
             t_sl=args.t_sl,
-            budget=args.budget,
+            budget=_actual_budget,
             plot_save=args.plot_save,
             show=args.plot,
         )
