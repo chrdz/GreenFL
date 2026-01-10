@@ -6,7 +6,7 @@ source ../../greenfl_venv/bin/activate
 #######################################################
 # Choose alpha between 0 and 1 to determine the level of non-iid ness of the clients datasets
 # This is not the alpha-fairness parameter
-alpha="0.5" # distribution of data among clients: 0.1:non-iid, 100000:iid, 0: true iid
+alpha="0.1" # distribution of data among clients: 0.1:non-iid, 100000:iid, 0: true iid
 generate_data=true #true/false true will regenerate the clients' datasets
 #######################################################
 
@@ -42,7 +42,7 @@ fi
 ### - Parameters to choose for training - ###
 #############################################
 
-logs_folder="mnist_baselines"
+logs_folder="mnist_baselines_with_ft"
 
 ### AVAILABILITY MATRIX ###
 # Which availability matrix/matrices are you using?
