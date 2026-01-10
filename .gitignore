@@ -14,6 +14,8 @@ building_availability_matrices/availability_matrices/av-mat-6/av-mat*
 building_availability_matrices/availability_matrices/av-mat-6/av-mat*
 building_availability_matrices/availability_matrices/av-mat-7/av-mat*
 building_availability_matrices/availability_matrices/av-mat-7/av-mat*
+abaca_logs/
+greenfl_venv/
 
 *.npy
 *.pth
