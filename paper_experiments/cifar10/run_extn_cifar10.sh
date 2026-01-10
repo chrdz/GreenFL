@@ -1,5 +1,5 @@
 #!/bin/bash
-source ../../greenfl_venv/bin/activate
+# source ../../greenfl_venv/bin/activate
 
 #######################################################
 ### - Parameters to choose for dataset generation - ###
@@ -47,7 +47,7 @@ logs_folder="cifar10_group_notclip"
 ### AVAILABILITY MATRIX ###
 # Which availability matrix/matrices are you using?
 # availabilities="alphaF-0cb-3ft alphaF-120sl-1cb-3ft alphaF-120sl-6cb-3ft alphaF-120sl-3cb-3ft alphaF-120sl-5cb-3ft alphaF-140sl-1cb-3ft alphaF-140sl-3cb-3ft alphaF-140sl-5cb-3ft alphaF-140sl-6cb-3ft alphaF-160sl-1cb-3ft alphaF-160sl-3cb-3ft alphaF-160sl-5cb-3ft alphaF-160sl-6cb-3ft alphaF-180sl-1cb-3ft alphaF-180sl-3cb-3ft alphaF-180sl-5cb-3ft alphaF-180sl-6cb-3ft alphaF-180sl-7cb-3ft alphaF-200sl-1cb-3ft alphaF-200sl-3cb-3ft alphaF-200sl-5cb-3ft alphaF-200sl-6cb-3ft alphaF-200sl-7cb-3ft" # list of availability matrices
-availabilities="alphaF-200sl-2cb-3ft alphaF-200sl-4cb-3ft" # list of availability matrices
+availabilities="alphaF-200sl-7cb-3ft" # list of availability matrices
 
 
 # availabilities="alphaF-0cb-3ft alphaF-120sl-1cb-3ft alphaF-120sl-2cb-3ft alphaF-120sl-3cb-3ft alphaF-120sl-4cb-3ft alphaF-120sl-5cb-3ft alphaF-120sl-6cb-3ft alphaF-140sl-1cb-3ft alphaF-140sl-2cb-3ft alphaF-140sl-3cb-3ft alphaF-140sl-4cb-3ft alphaF-140sl-5cb-3ft alphaF-140sl-6cb-3ft alphaF-160sl-1cb-3ft alphaF-160sl-2cb-3ft alphaF-160sl-3cb-3ft alphaF-160sl-4cb-3ft alphaF-160sl-5cb-3ft alphaF-160sl-6cb-3ft alphaF-180sl-1cb-3ft" # list of availability matrices
@@ -72,7 +72,8 @@ biased="2" # 0:unbiased, 1:biased, 2:hybrid (unbiased except when all clients av
 grad_clip_threshold=None # Change this to None if you don't want to clip
 verbose=1 # 0,1,2
 seeds="42 78 84"
-lrs="5e-2 1e-2" # list of learning rates
+# lrs="5e-2 1e-2" # list of learning rates
+lrs="5e-2" # list of learning rates
 # lrs="1e-1" # list of learning rates
 ###########################
 
