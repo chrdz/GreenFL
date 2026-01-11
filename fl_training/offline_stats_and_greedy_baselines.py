@@ -495,10 +495,10 @@ def save_availability(A_full: np.ndarray, row_labels: List[str], out_dir: Path, 
     end_round = T + s_best
 
     df = pd.DataFrame(A_full[:, :end_round], index=row_labels, columns=list(range(1, end_round + 1)))
-    csv_path = out_dir / f"{name}.csv"
+    csv_path = out_dir / f"{name}_{end_round}Rounds.csv"
     df.to_csv(csv_path)
 
-    npy_path = out_dir / f"{name}_full.npy"
+    npy_path = out_dir / f"{name}_{end_round}Rounds_full.npy"
     np.save(npy_path, A_full.astype(int))
     return csv_path, npy_path
 
