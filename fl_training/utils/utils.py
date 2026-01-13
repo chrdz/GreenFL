@@ -25,7 +25,9 @@ def get_data_dir(experiment_name):
     :param experiment_name: name of the experiment
     :return: str
     """
-    data_dir = os.path.join("fl_training", "data", experiment_name, "all_data")
+    # Had to change this line to train
+    # data_dir = os.path.join("fl_training", "data", experiment_name, "all_data")
+    data_dir = os.path.join("data", experiment_name, "all_data")
 
     return data_dir
 
@@ -198,6 +200,8 @@ def get_model(name, model_name, device, input_dimension=None, hidden_dimension=N
             model = get_mobilenet(num_classes=10)
         elif model_name == "resnet":
             model = get_resnet18(num_classes=10)
+        elif model_name == "custom":
+            model = get_custom_model(num_classes=10)
         else:
             error_message = f"{model_name} is not a possible model, available are:"
             for model_name_ in ALL_MODELS:

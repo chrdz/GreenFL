@@ -192,3 +192,9 @@ def get_resnet18(num_classes):
     model.fc = nn.Linear(num_features, num_classes)
 
     return model
+
+def get_custom_model(num_classes=10):
+    model = Cifar10CNN(num_classes=num_classes)
+    replace_batchnorm_with_groupnorm(model, max_groups=32)
+
+    return model

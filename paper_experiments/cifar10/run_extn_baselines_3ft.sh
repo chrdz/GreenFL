@@ -42,20 +42,18 @@ fi
 ### - Parameters to choose for training - ###
 #############################################
 
-logs_folder="cifar_test_branch_baselines"
+logs_folder="cifar_baselines_with_ft_group_notclip"
 
 ### AVAILABILITY MATRIX ###
 av_mat_folder="availability_matrices_baselines"
 # Which availability matrix/matrices are you using?
-availabilities="prob1_alphaFair_3cb_3ft prob2_CAFE_3cb_3ft prob3_FedZero_3cb_3ft"
+# availabilities="prob1_alphaFair_3cb_3ft prob2_CAFE_3cb_3ft prob3_FedZero_3cb_3ft"
 # availabilities="prob3_FedZero_3cb_3ft"
 
-# availabilities="prob1_alphaFair_1cb_3ft prob1_alphaFair_2cb_3ft prob1_alphaFair_3cb_3ft prob1_alphaFair_4cb_3ft prob1_alphaFair_5cb_3ft prob1_alphaFair_6cb_3ft prob1_alphaFair_7cb_3ft"
-# availabilities="prob2_CAFE_1cb_3ft prob2_CAFE_2cb_3ft prob2_CAFE_3cb_3ft prob2_CAFE_4cb_3ft prob2_CAFE_5cb_3ft prob2_CAFE_6cb_3ft prob2_CAFE_7cb_3ft" # list of availability matrices
-# availabilities="prob3_FedZero_1cb_3ft prob3_FedZero_2cb_3ft prob3_FedZero_3cb_3ft prob3_FedZero_4cb_3ft prob3_FedZero_5cb_3ft prob3_FedZero_6cb_3ft prob3_FedZero_7cb_3ft" # list of availability matrices
+availabilities="prob1_alphaFair_1cb_3ft_110Rounds prob1_alphaFair_2cb_3ft_110Rounds prob1_alphaFair_3cb_3ft_110Rounds prob1_alphaFair_4cb_3ft_101Rounds prob1_alphaFair_5cb_3ft_101Rounds prob1_alphaFair_6cb_3ft_101Rounds prob1_alphaFair_7cb_3ft_101Rounds prob2_CAFE_1cb_3ft_120Rounds prob2_CAFE_2cb_3ft_120Rounds prob2_CAFE_3cb_3ft_120Rounds prob2_CAFE_4cb_3ft_120Rounds prob2_CAFE_5cb_3ft_120Rounds prob2_CAFE_6cb_3ft_110Rounds prob2_CAFE_7cb_3ft_101Rounds prob3_FedZero_1cb_3ft_120Rounds prob3_FedZero_2cb_3ft_120Rounds prob3_FedZero_3cb_3ft_120Rounds prob3_FedZero_4cb_3ft_110Rounds prob3_FedZero_5cb_3ft_110Rounds prob3_FedZero_6cb_3ft_110Rounds prob3_FedZero_7cb_3ft_101Rounds"
 
-av_mat_folder="availability_matrices"
-availabilities="alphaF-140sl-3cb-3ft"
+# av_mat_folder="availability_matrices"
+# availabilities="alphaF-140sl-3cb-3ft"
 
 # Traceback (most recent call last):
 #   File "/home/crodrigu/GreenFL/fl_training/offline_stats_and_greedy_baselines.py", line 666, in <module>
@@ -68,7 +66,7 @@ availabilities="alphaF-140sl-3cb-3ft"
 fine_tuning=3 # number of finetuning steps
 
 # How many training rounds does it include?
-n_rounds="140" # number of training rounds
+n_rounds="120" # number of training rounds
 ###########################
 
 ### FL ALGORITHM ###
@@ -81,10 +79,9 @@ biased="2" # 0:unbiased, 1:biased, 2:hybrid (unbiased except when all clients av
 ### TRAINING PARAMETERS ###
 # grad_clip_threshold="5.0" # Change this to None if you don't want to clip
 verbose=1 # 0,1,2
-# seeds="42 78 84"
-# lrs="5e-2 1e-2" # list of learning rates
-seeds="84"
-lrs="5e-2" # list of learning rates
+seeds="42 78 84"
+lrs="5e-2 1e-2" # list of learning rates
+
 ###########################
 
 #############################################
@@ -112,11 +109,12 @@ if echo "$fl_algo" | grep -q "fedavg"; then
 # if [[ "fedavg" == *"$fl_algo"* ]]; then
 for availability in $availabilities; do
 availability_matrix_path="../${av_mat_folder}/av-mat_${availability}.csv"
-# if echo "$availability" | grep -qE '[0-9]+sl'; then
-#     n_rounds=$(echo "$availability" | sed -n 's/.*-\([0-9]\+\)sl.*/\1/p')
-# else
-#     n_rounds=200
-# fi
+if echo "$availability" | grep -qE '[0-9]+Rounds'; then
+    n_rounds=$(echo "$availability" | sed -n 's/.*_\([0-9]\+\)Rounds.*/\1/p')
+    echo "Number Rounds: $n_rounds"
+else
+    n_rounds=200
+fi
 for heterogeneity in $heterogeneities; do
 for lr in $lrs; do
 for seed in $seeds; do

@@ -352,7 +352,9 @@ def get_mnist():
         mnist_data, mnist_targets
 
     """
-    mnist_path = os.path.join("fl_training", "data", "mnist", "raw_data")
+    # Had to change this line to train
+    # mnist_path = os.path.join("fl_training", "data", "mnist", "raw_data")
+    mnist_path = os.path.join("data", "mnist", "raw_data")
     assert os.path.isdir(mnist_path), "Download MNIST dataset!!"
 
     mnist_train =\
@@ -393,6 +395,7 @@ def get_cifar10():
         cifar10_data, cifar10_targets
 
     """
+    # cifar10_path = os.path.join("fl_training", "data", "cifar10", "raw_data")
     cifar10_path = os.path.join("data", "cifar10", "raw_data")
     assert os.path.isdir(cifar10_path), "Download cifar10 dataset!!"
 
