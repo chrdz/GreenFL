@@ -34,7 +34,7 @@ COUNTRIES = [
     "Croatia",
 ]
 MAIN_FOLDER = "availability_matrices/av-mat-NEW"
-
+C_idle = 0.2
 
 def load_data(countries=None):
     """
@@ -344,7 +344,6 @@ class Window:
             cp.sum(cp.power(cp.sum(cp.multiply(one_m_GHG_w, x), axis=1), alpha_f))
         )
 
-        C_idle = 0.2
         constraints = [0 <= x, x <= 1, cp.sum(cp.multiply(GHG_mat, x)) + C_idle*cp.sum(cp.multiply(GHG_mat, np.ones(GHG_mat.shape) - x)) <= carbon_budget]
         # g_{c,t} * C * (1 - a_{c,t})
 
@@ -570,7 +569,7 @@ class Window:
         print(
             "result: ",
             np.sum(np.multiply(self.GHG_matrix.to_numpy(), av_mat_df.to_numpy()))+
-            np.sum(np.multiply(self.GHG_matrix.to_numpy()*0.2, np.ones(self.GHG_matrix.shape) - av_mat_df.to_numpy())),
+            np.sum(np.multiply(self.GHG_matrix.to_numpy()*C_idle, np.ones(self.GHG_matrix.shape) - av_mat_df.to_numpy())),
         )
 
         return av_mat_df
