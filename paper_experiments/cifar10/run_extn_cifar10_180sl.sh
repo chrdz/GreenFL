@@ -1,5 +1,5 @@
 #!/bin/bash
-source ../../greenfl_venv/bin/activate
+source ../../greenfl_venv_oldpytorch/bin/activate
 
 #######################################################
 ### - Parameters to choose for dataset generation - ###
@@ -7,7 +7,7 @@ source ../../greenfl_venv/bin/activate
 # Choose alpha between 0 and 1 to determine the level of non-iid ness of the clients datasets
 # This is not the alpha-fairness parameter
 alpha="0.5" # distribution of data among clients: 0.1:non-iid, 100000:iid, 0: true iid
-generate_data=true #true/false true will regenerate the clients' datasets
+generate_data=false #true/false true will regenerate the clients' datasets
 #######################################################
 
 
@@ -46,9 +46,16 @@ logs_folder="cifar10_group_notclip"
 
 ### AVAILABILITY MATRIX ###
 # Which availability matrix/matrices are you using?
-# availabilities="alphaF-120sl-1cb-1ft alphaF-120sl-2cb-1ft alphaF-120sl-3cb-1ft alphaF-120sl-4cb-1ft alphaF-120sl-5cb-1ft alphaF-120sl-6cb-1ft alphaF-120sl-7cb-1ft alphaF-120sl-8cb-1ft"
-# availabilities="alphaF-140sl-1cb-1ft alphaF-140sl-2cb-1ft alphaF-140sl-3cb-1ft alphaF-140sl-4cb-1ft alphaF-140sl-5cb-1ft alphaF-140sl-6cb-1ft alphaF-140sl-7cb-1ft alphaF-140sl-8cb-1ft alphaF-160sl-1cb-1ft alphaF-160sl-2cb-1ft alphaF-160sl-3cb-1ft alphaF-160sl-4cb-1ft alphaF-160sl-5cb-1ft alphaF-160sl-6cb-1ft alphaF-160sl-7cb-1ft alphaF-160sl-8cb-1ft alphaF-180sl-1cb-1ft alphaF-180sl-2cb-1ft alphaF-180sl-3cb-1ft alphaF-180sl-4cb-1ft alphaF-180sl-5cb-1ft alphaF-180sl-6cb-1ft alphaF-180sl-7cb-1ft alphaF-180sl-8cb-1ft"
-availabilities="alphaF-200sl-1cb-1ft alphaF-200sl-2cb-1ft alphaF-200sl-3cb-1ft alphaF-200sl-4cb-1ft alphaF-200sl-5cb-1ft alphaF-200sl-6cb-1ft alphaF-200sl-7cb-1ft alphaF-200sl-8cb-1ft"
+if [ -z "$1" ]; then
+    availabilities=""
+else
+    availabilities="$1"
+fi
+echo "Using availability: $availabilities"
+
+### AVAILABILITY MATRIX ###
+# Which availability matrix/matrices are you using?
+# availabilities="alphaF-180sl-1cb-1ft alphaF-180sl-2cb-1ft alphaF-180sl-3cb-1ft alphaF-180sl-4cb-1ft alphaF-180sl-5cb-1ft alphaF-180sl-6cb-1ft alphaF-180sl-7cb-1ft alphaF-180sl-8cb-1ft"
 
 # Does the av. mat. include a fine-tuning phase?
 fine_tuning=1 # number of finetuning steps

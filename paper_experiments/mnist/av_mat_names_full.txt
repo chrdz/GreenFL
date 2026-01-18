@@ -1,0 +1,29 @@
+alphaFidle-60sl-1cb-1ft 
+alphaFidle-60sl-1cb-3ft 
+alphaFidle-60sl-2cb-1ft 
+alphaFidle-60sl-2cb-3ft 
+alphaFidle-60sl-3cb-1ft 
+alphaFidle-60sl-3cb-3ft 
+alphaFidle-70sl-1cb-1ft 
+alphaFidle-70sl-1cb-3ft 
+alphaFidle-70sl-2cb-1ft 
+alphaFidle-70sl-2cb-3ft 
+alphaFidle-70sl-3cb-1ft 
+alphaFidle-70sl-3cb-3ft 
+alphaFidle-80sl-1cb-1ft 
+alphaFidle-80sl-1cb-3ft 
+alphaFidle-80sl-2cb-1ft 
+alphaFidle-80sl-2cb-3ft 
+alphaFidle-80sl-3cb-1ft 
+alphaFidle-80sl-3cb-3ft 
+alphaFidle-90sl-1cb-1ft 
+alphaFidle-90sl-1cb-3ft 
+alphaFidle-90sl-2cb-1ft 
+alphaFidle-90sl-2cb-3ft 
+alphaFidle-100sl-1cb-1ft 
+alphaFidle-100sl-1cb-3ft 
+alphaFidle-100sl-2cb-1ft 
+alphaFidle-100sl-2cb-3ft Angelo
+alphaFidle-120sl-1cb-1ft Angelo
+alphaFidle-120sl-1cb-3ft Daniel
+alphaFidle-140sl-1cb-1ft Daniel
