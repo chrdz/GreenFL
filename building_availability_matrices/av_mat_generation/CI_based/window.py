@@ -343,7 +343,13 @@ class Window:
         objective = cp.Maximize(
             cp.sum(cp.power(cp.sum(cp.multiply(one_m_GHG_w, x), axis=1), alpha_f))
         )
-        constraints = [0 <= x, x <= 1, cp.sum(cp.multiply(GHG_mat, x)) <= carbon_budget]
+
+        C_idle = 0.2
+        constraints = [0 <= x, x <= 1, cp.sum(cp.multiply(GHG_mat, x)) + C_idle*cp.sum(cp.multiply(GHG_mat, np.ones(GHG_mat.shape) - x)) <= carbon_budget]
+        # g_{c,t} * C * (1 - a_{c,t})
+
+        # constraints = [0 <= x, x <= 1, cp.sum(cp.multiply(GHG_mat, x)) <= carbon_budget]
+
         prob = cp.Problem(objective, constraints)
 
         if solver == "mosek":
@@ -397,7 +403,7 @@ class Window:
                 largest_index = i
         return largest_index
 
-    def apply_FT(self, availability_df, ft=10, carbon_budget=7, key_word="alphaF-FT"):
+    def apply_FT_NSTD(self, availability_df, ft=10, carbon_budget=7, key_word="alphaF-FT"):
         """
         Add a fine-tuning phase to the availablity matrix given as input.
         Firstly, the end of the training is determined as the last time at which a
@@ -480,12 +486,45 @@ class Window:
         self.save_availability_matrix(key_word, availability_df)
 
         return availability_df
+    
+    def apply_FT_STD(self, method, alpha_f, ft=10, carbon_budget=7, key_word=""):
+        """
+        Creates an availability matrix with fine-tuning phase.
+        """
+
+        percentage_fine_tuning = ft / 100
+        idx = int(percentage_fine_tuning * self.n_rounds)
+        print('idx: ', idx)
+
+        GHG_values = self.GHG_matrix.to_numpy()
+        GHG_countries = sum(GHG_values[:, -idx:])
+        print(GHG_countries)
+
+        remaining_budget = carbon_budget - sum(GHG_countries)
+        print('remaining budget: ', remaining_budget)
+
+        av_mat, key_word = self._av_mat_alphaF(
+            method, remaining_budget, key_word=key_word, alpha_f=alpha_f
+        )
+
+        # Set the last 10 percent to available
+        av_mat[:, -idx:] = 1
+
+        availability_df = pd.DataFrame(
+            av_mat,
+            index=self.countries,
+            columns=[i for i in range(self.n_rounds)],
+        )
+        self.plot_availability_heatmap(availability_df, key_word)
+        self.save_availability_matrix(key_word, availability_df)
+
+        return availability_df
 
     def get_av_mat(
         self,
         method="cvxpy_mosek",
         key_word=None,
-        fine_tuning=False,
+        fine_tuning=0,
         ft=10,
         carbon_budget=7,
         CO2saving=None, # percentage of saved carbon-footprint
@@ -515,17 +554,23 @@ class Window:
             key_word_NO_FT = key_word
             key_word_FT = key_word + f"-{ft}ft"
 
-        av_mat_df, key_word = self._av_mat_alphaF(
-            method, carbon_budget, key_word=key_word_NO_FT, alpha_f=alpha_f
-        )
+        if fine_tuning == 0:
+            av_mat_df, key_word = self._av_mat_alphaF(
+                method, carbon_budget, key_word=key_word_NO_FT, alpha_f=alpha_f
+            )
+        elif fine_tuning == 1:
+            av_mat_df = self.apply_FT_STD(method, alpha_f, ft, carbon_budget, key_word=key_word_NO_FT)
+        else: # fine_tuning == 2
+            av_mat_df, key_word = self._av_mat_alphaF(
+                method, carbon_budget, key_word=key_word_NO_FT, alpha_f=alpha_f
+            )
+            av_mat_df = self.apply_FT_NSTD(av_mat_df, ft, carbon_budget, key_word=key_word_FT)
 
         print("target: ", carbon_budget)
         print(
             "result: ",
-            np.sum(np.multiply(self.GHG_matrix.to_numpy(), av_mat_df.to_numpy())),
+            np.sum(np.multiply(self.GHG_matrix.to_numpy(), av_mat_df.to_numpy()))+
+            np.sum(np.multiply(self.GHG_matrix.to_numpy()*0.2, np.ones(self.GHG_matrix.shape) - av_mat_df.to_numpy())),
         )
 
-        if fine_tuning == False:
-            return av_mat_df
-        else:
-            return self.apply_FT(av_mat_df, ft, carbon_budget, key_word=key_word_FT)
+        return av_mat_df
