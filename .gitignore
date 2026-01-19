@@ -14,14 +14,18 @@ building_availability_matrices/availability_matrices/av-mat-6/av-mat*
 building_availability_matrices/availability_matrices/av-mat-6/av-mat*
 building_availability_matrices/availability_matrices/av-mat-7/av-mat*
 building_availability_matrices/availability_matrices/av-mat-7/av-mat*
-paper_experiments/cifar10/abaca_logs
+abaca_logs/
+abaca_logs_parallel/
 greenfl_venv/
+greenfl_venv_oldpytorch/
+*.stderr
+*.stdout
 
 *.npy
 *.pth
 # *.csv
 *.json
-*.txt
+# *.txt
 *.pt
 *.pkl
 
