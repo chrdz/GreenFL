@@ -1,5 +1,4 @@
 #!/bin/bash
-source ../../greenfl_venv/bin/activate
 
 #######################################################
 ### - Parameters to choose for dataset generation - ###
