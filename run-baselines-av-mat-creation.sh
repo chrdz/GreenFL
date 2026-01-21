@@ -2,7 +2,7 @@
 
 echo "=> generate data"
 
-cd fl_training/data/mnist || exit 1
+cd fl_training/data/cifar10 || exit 1
 rm -rf all_data
 python generate_data.py \
     --n_tasks 7 \
@@ -14,7 +14,7 @@ python generate_data.py \
 cd ../../../fl_training
 # The budget should take the values (if the number of fine-tuning steps is 3) 7.980065999999999 6.1960109999999995 4.235079 1.983414 1.773765 0.9428550000000001 0.7447260000000001
 # If the number of fine-tuning steps is 1 then it is -> 7.980065999999999 6.1960109999999995 4.235079 1.983414 0.9428550000000001 0.7447260000000001 0.5575350000000001
-for ix in {0..6}; do
+for ix in {5..5}; do
 echo "3ft and ${ix}"
 (python offline_stats_and_greedy_baselines.py \
    --experiment cifar10 \
@@ -32,7 +32,7 @@ echo "3ft and ${ix}"
    --countries "France,Great Britain,Spain,Germany,Belgium,Sweden,Finland" \
    --no-random-start \
    --start-time "2022-01-01T00:00:00" \
-   --out-dir "../availability_matrices_baselines" \
+   --out-dir "../avMat_baselines_cifar10_bestEndFT" \
    --plot \
    --name-prefix "av-mat"
 )

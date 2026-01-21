@@ -1,13 +1,16 @@
 #!/bin/bash
 source ../../greenfl_venv/bin/activate
 
+# oarsub -p esterel44-1 -n "-cifar10_baselines-" -q abaca -l gpu=1,walltime=15:00:00 -S "./run_extn_baselines_3ft.sh" --array-param-file ./av_mat_baselines_cifar10.txt
+# oarsub -n "-cifar10_baselines-" -q abaca -l gpu=1,walltime=15:00:00 -S "./run_extn_baselines_3ft.sh" --array-param-file ./av_mat_baselines_cifar10.txt
+
 #######################################################
 ### - Parameters to choose for dataset generation - ###
 #######################################################
 # Choose alpha between 0 and 1 to determine the level of non-iid ness of the clients datasets
 # This is not the alpha-fairness parameter
 alpha="0.5" # distribution of data among clients: 0.1:non-iid, 100000:iid, 0: true iid
-generate_data=true #true/false true will regenerate the clients' datasets
+generate_data=false #true/false true will regenerate the clients' datasets
 #######################################################
 
 
@@ -19,7 +22,7 @@ n_tasks="7" # 7 clients, one client per country
 if $generate_data; then
 echo "=> generate data"
 cd ../..
-cd fl_training/data/mnist || exit 1
+cd fl_training/data/cifar10 || exit 1
 
 # --- dataset creation --- #
 rm -rf all_data
@@ -42,31 +45,23 @@ fi
 ### - Parameters to choose for training - ###
 #############################################
 
-logs_folder="cifar_baselines_with_ft_group_notclip"
+logs_folder="cifar_baselines_with_ft_group_notclip_bestEndFT"
 
 ### AVAILABILITY MATRIX ###
-av_mat_folder="availability_matrices_baselines"
+av_mat_folder="avMat_baselines_cifar10_bestEndFT"
 # Which availability matrix/matrices are you using?
-# availabilities="prob1_alphaFair_3cb_3ft prob2_CAFE_3cb_3ft prob3_FedZero_3cb_3ft"
-# availabilities="prob3_FedZero_3cb_3ft"
-
-availabilities="prob1_alphaFair_1cb_3ft_110Rounds prob1_alphaFair_2cb_3ft_110Rounds prob1_alphaFair_3cb_3ft_110Rounds prob1_alphaFair_4cb_3ft_101Rounds prob1_alphaFair_5cb_3ft_101Rounds prob1_alphaFair_6cb_3ft_101Rounds prob1_alphaFair_7cb_3ft_101Rounds prob2_CAFE_1cb_3ft_120Rounds prob2_CAFE_2cb_3ft_120Rounds prob2_CAFE_3cb_3ft_120Rounds prob2_CAFE_4cb_3ft_120Rounds prob2_CAFE_5cb_3ft_120Rounds prob2_CAFE_6cb_3ft_110Rounds prob2_CAFE_7cb_3ft_101Rounds prob3_FedZero_1cb_3ft_120Rounds prob3_FedZero_2cb_3ft_120Rounds prob3_FedZero_3cb_3ft_120Rounds prob3_FedZero_4cb_3ft_110Rounds prob3_FedZero_5cb_3ft_110Rounds prob3_FedZero_6cb_3ft_110Rounds prob3_FedZero_7cb_3ft_101Rounds"
-
-# av_mat_folder="availability_matrices"
-# availabilities="alphaF-140sl-3cb-3ft"
-
-# Traceback (most recent call last):
-#   File "/home/crodrigu/GreenFL/fl_training/offline_stats_and_greedy_baselines.py", line 666, in <module>
-#     main()
-#   File "/home/crodrigu/GreenFL/fl_training/offline_stats_and_greedy_baselines.py", line 596, in main
-#     _actual_budget = _3FT_CB[args.budget] if args.t_ft == 3 else _1FT_CB[args.budget]
-# IndexError: list index out of range
+if [ -z "$1" ]; then
+    availabilities=""
+else
+    availabilities="$1"
+fi
+echo "Using availability: $availabilities"
 
 # Does the av. mat. include a fine-tuning phase?
 fine_tuning=3 # number of finetuning steps
 
 # How many training rounds does it include?
-n_rounds="120" # number of training rounds
+n_rounds="200" # number of training rounds
 ###########################
 
 ### FL ALGORITHM ###
