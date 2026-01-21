@@ -24,7 +24,7 @@ greenfl_venv_oldpytorch/
 *.pth
 # *.csv
 *.json
-*.txt
+# *.txt
 *.pt
 *.pkl
 
