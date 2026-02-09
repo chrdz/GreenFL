@@ -242,6 +242,7 @@ def get_model(name, model_name, device, input_dimension=None, hidden_dimension=N
         )
 
     if chkpts_path is not None:
+        print(f"Loading model from {chkpts_path}")
         map_location = torch.device("cuda" if torch.cuda.is_available() else "cpu")
         try:
             model.load_state_dict(torch.load(chkpts_path, map_location=map_location)['model_state_dict'])
