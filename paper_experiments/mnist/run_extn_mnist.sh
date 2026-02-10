@@ -46,7 +46,7 @@ logs_folder="mnist_idle"
 
 ### AVAILABILITY MATRIX ###
 # Which availability matrix/matrices are you using?
-av_mat_folder="availability_matrices_idle"
+av_mat_folder="availability_matrices_idle_mnist"
 if [ -z "$1" ]; then
     availabilities=""
 else
@@ -100,7 +100,7 @@ availability_matrix_path="../${av_mat_folder}/av-mat_${availability}.csv"
 if echo "$availability" | grep -qE '[0-9]+sl'; then
     n_rounds=$(echo "$availability" | sed -n 's/.*-\([0-9]\+\)sl.*/\1/p')
 else
-    n_rounds=100
+    n_rounds=200
 fi
 for heterogeneity in $heterogeneities; do
 for lr in $lrs; do
