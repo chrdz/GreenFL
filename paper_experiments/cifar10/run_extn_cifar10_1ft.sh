@@ -42,7 +42,7 @@ fi
 ### - Parameters to choose for training - ###
 #############################################
 
-logs_folder="cifar10_group_notclip_v2"
+logs_folder="cifar10_group_notclip_v5"
 
 ### AVAILABILITY MATRIX ###
 # Which availability matrix/matrices are you using?
@@ -95,11 +95,11 @@ device="cuda"
 if echo "$fl_algo" | grep -q "fedavg"; then
 # if [[ "fedavg" == *"$fl_algo"* ]]; then
 for availability in $availabilities; do
-availability_matrix_path="../availability_matrices/av-mat_${availability}.csv"
+availability_matrix_path="../availability_matrices_cifar10/av-mat_${availability}.csv"
 if echo "$availability" | grep -qE '[0-9]+sl'; then
     n_rounds=$(echo "$availability" | sed -n 's/.*-\([0-9]\+\)sl.*/\1/p')
 else
-    n_rounds=100
+    n_rounds=200
 fi
 for heterogeneity in $heterogeneities; do
 for lr in $lrs; do

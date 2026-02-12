@@ -1,3 +1,6 @@
+#!/bin/bash
+source ../../greenfl_venv_oldpytorch/bin/activate
+
 #######################################################
 ### - Parameters to choose for dataset generation - ###
 #######################################################
@@ -18,7 +21,6 @@ echo "=> generate data"
 cd ../..
 cd fl_training/data/cifar10 || exit 1
 
-echo "Dataset already generated"
 # --- dataset creation --- #
 rm -rf all_data
 (
