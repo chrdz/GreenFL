@@ -45,7 +45,7 @@ echo "=> training"
 
 ### - Parameters to choose for training - ###
 ### - Only change here - ###
-availabilities="prob1_alphaFair_1cb_3ft prob1_alphaFair_2cb_3ft prob1_alphaFair_3cb_3ft prob1_alphaFair_4cb_3ft prob1_alphaFair_5cb_3ft prob1_alphaFair_6cb_3ft prob1_alphaFair_7cb_3ft prob2_CAFE_1cb_3ft prob2_CAFE_2cb_3ft prob2_CAFE_3cb_3ft prob2_CAFE_4cb_3ft prob2_CAFE_5cb_3ft prob2_CAFE_6cb_3ft prob2_CAFE_7cb_3ft prob3_FedZero_1cb_3ft prob3_FedZero_2cb_3ft prob3_FedZero_3cb_3ft prob3_FedZero_4cb_3ft prob3_FedZero_5cb_3ft prob3_FedZero_6cb_3ft prob3_FedZero_7cb_3ft" # list of availability matrices
+availabilities="prob2_CAFE_1cb_3ft_90Rounds prob2_CAFE_3cb_3ft_70Rounds prob2_CAFE_4cb_3ft_50Rounds prob2_CAFE_5cb_3ft_49Rounds prob2_CAFE_6cb_3ft_55Rounds prob2_CAFE_7cb_3ft_44Rounds prob2_CAFE_2cb_3ft_120Rounds prob3_FedZero_1cb_3ft_90Rounds prob3_FedZero_3cb_3ft_70Rounds prob3_FedZero_4cb_3ft_50Rounds prob3_FedZero_5cb_3ft_49Rounds prob3_FedZero_6cb_3ft_53Rounds prob3_FedZero_7cb_3ft_37Rounds prob3_FedZero_2cb_3ft_120Rounds prob1_alphaFair_1cb_3ft_90Rounds prob1_alphaFair_3cb_3ft_63Rounds prob1_alphaFair_4cb_3ft_47Rounds prob1_alphaFair_5cb_3ft_47Rounds prob1_alphaFair_6cb_3ft_39Rounds prob1_alphaFair_7cb_3ft_37Rounds prob1_alphaFair_2cb_3ft_110Rounds" # list of availability matrices
 fl_algo="fedavg" # list of FL algorithms
 biased="2" # 0:unbiased, 1:biased, 2:hybrid (unbiased except when all clients available)
 fine_tuning=3 # Change this to # of finetuning step
@@ -84,8 +84,12 @@ n_rounds=200
 if echo "$fl_algo" | grep -q "fedavg"; then
 # if [[ "fedavg" == *"$fl_algo"* ]]; then
 for availability in $availabilities; do
-availability_matrix_path="../availability_matrices/av-mat_${availability}.csv"
-#n_rounds=$(echo "$availability" | sed -n 's/.*-\([^-]*\)sl.*/\1/p')
+availability_matrix_path="../avMat_baselines_mnist_bestEndFT/av-mat_${availability}.csv"
+if echo "$availability" | grep -qE '[0-9]+Rounds'; then
+    n_rounds=$(echo "$availability" | sed -n 's/.*_\([0-9]\+\)Rounds.*/\1/p')
+    echo "Number Rounds: $n_rounds"
+else
+    n_rounds=200
 for heterogeneity in $heterogeneities; do
 for lr in $lrs; do
 for seed in $seeds; do
@@ -101,7 +105,7 @@ mnist \
 --device ${device} \
 --optimizer sgd \
 --server_optimizer sgd \
---logs_dir ../logs/mnist_debug/${availability}/biased_${biased}/fedavg/alpha_${alpha}/lr_${lr}/seed_${seed} \
+--logs_dir ../logs/mnist_baselines/${availability}/biased_${biased}/fedavg/alpha_${alpha}/lr_${lr}/seed_${seed} \
 --seed ${seed} \
 --verbose ${verbose} \
 --availability_matrix_path ${availability_matrix_path} \

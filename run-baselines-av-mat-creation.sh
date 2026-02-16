@@ -22,7 +22,7 @@ echo "3ft and ${ix}"
    --experiment mnist \
    --model-name custom \
    --device cpu \
-   --bz 64 \
+   --bz 128 \
    --probe-fraction 0.05 \
    --min-probe-samples 32 \
    --seed 12345 \
@@ -34,7 +34,7 @@ echo "3ft and ${ix}"
    --countries "France,Great Britain,Spain,Germany,Belgium,Sweden,Finland" \
    --no-random-start \
    --start-time "2022-01-01T00:00:00" \
-   --out-dir "../avMat_baselines_mnist_bestEndFT_improved" \
+   --out-dir "../avMat_baselines_mnist_bestEndFT" \
    --plot \
    --name-prefix "av-mat"
 )
@@ -48,7 +48,7 @@ echo "3ft and ${ix}"
    --experiment mnist \
    --model-name custom \
    --device cpu \
-   --bz 64 \
+   --bz 128 \
    --probe-fraction 0.05 \
    --min-probe-samples 32 \
    --seed 12345 \
@@ -60,7 +60,7 @@ echo "3ft and ${ix}"
    --countries "France,Great Britain,Spain,Germany,Belgium,Sweden,Finland" \
    --no-random-start \
    --start-time "2022-01-01T00:00:00" \
-   --out-dir "../avMat_baselines_mnist_bestEndFT_improved" \
+   --out-dir "../avMat_baselines_mnist_bestEndFT" \
    --plot \
    --name-prefix "av-mat"
 )

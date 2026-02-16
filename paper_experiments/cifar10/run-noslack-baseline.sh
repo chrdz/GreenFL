@@ -104,6 +104,7 @@ echo "Availability matrix: ${availability} \n Run FedAvg : p ${participation}, h
 (
 python train.py \
 cifar10 \
+--model_name custom \
 --n_rounds ${n_rounds} \
 --participation_probs 1.0 ${participation} \
 --bz 128 \
@@ -118,7 +119,6 @@ cifar10 \
 --availability_matrix_path ${availability_matrix_path} \
 --biased ${biased} \
 --fine_tuning ${fine_tuning} \
---grad_clip_threshold ${grad_clip_threshold} \
 --chkpts_dir ../baseline_chkpt/cifar10
 )
 done
@@ -142,6 +142,7 @@ echo "Run FedVARP : p ${participation}, h ${heterogeneity}, lr ${lr}, seed ${see
 (
 python train.py \
 cifar10 \
+--model_name custom \
 --n_rounds ${n_rounds} \
 --participation_probs 1.0 ${participation} \
 --bz 128 \
@@ -156,7 +157,7 @@ cifar10 \
 --availability_matrix_path ${availability_matrix_path} \
 --biased ${biased} \
 --fine_tuning ${fine_tuning} \
---grad_clip_threshold ${grad_clip_threshold}
+# --grad_clip_threshold ${grad_clip_threshold}
 )
 done
 done
@@ -180,6 +181,7 @@ echo "Run FedStale : p ${participation}, h ${heterogeneity}, beta ${weight}, lr 
 (
 python train.py \
 cifar10 \
+--model_name custom \
 --n_rounds ${n_rounds} \
 --participation_probs 1.0 ${participation} \
 --bz 128 \
@@ -195,7 +197,7 @@ cifar10 \
 --availability_matrix_path ${availability_matrix_path} \
 --biased ${biased} \
 --fine_tuning ${fine_tuning} \
---grad_clip_threshold ${grad_clip_threshold}
+# --grad_clip_threshold ${grad_clip_threshold}
 )
 done
 done
