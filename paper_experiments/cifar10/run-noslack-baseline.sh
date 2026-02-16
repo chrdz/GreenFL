@@ -1,6 +1,6 @@
 #!/bin/bash
 #module load conda/2021.11-python3.9
-source ../../venv/bin/activate
+source ../../greenfl_venv_oldpytorch/bin/activate
 
 ### - Parameters to choose for dataset generation - ###
 ### - Only change here - ###

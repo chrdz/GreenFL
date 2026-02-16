@@ -1,6 +1,6 @@
 #!/bin/bash
 #module load conda/2021.11-python3.9
-source ../../venv/bin/activate
+source ../../greenfl_venv_oldpytorch/bin/activate
 
 ### - Parameters to choose for dataset generation - ###
 ### - Only change here - ###
@@ -68,19 +68,6 @@ if echo "$availability" | grep -qE '[0-9]+sl'; then
 else
     n_rounds=50
 fi
-
-### other availability matrices' names ###
-# opt-new-problem-cvxpy_a-1
-# opt-new-problem-cvxpy_a-10
-# opt-new-problem-cvxpy_a-21
-# uniform-CI-threshold 
-# uniform-carbon-budget 
-# uniform-carbon-budget-fine-tuning 
-# uniform-time-budget
-# nonlinear-optimization-cvxpy_w-no-w_a-1 
-# nonlinear-optimization-cvxpy_w-no-w_a-0.5 
-# random4_uniform-carbon-budget-fine-tuning
-# nonlinear-optimization-cvxpy_w-no-w_a-0.1
 
 
 # ------------------------------ #
