@@ -69,7 +69,7 @@ biased="2" # 0:unbiased, 1:biased, 2:hybrid (unbiased except when all clients av
 ####################
 
 ### TRAINING PARAMETERS ###
-grad_clip_threshold="5.0" # Change this to None if you don't want to clip
+# grad_clip_threshold="5.0" # Change this to None if you don't want to clip
 verbose=1 # 0,1,2
 seeds="42 78 84"
 lrs="1e-2 5e-2" # list of learning rates
@@ -113,6 +113,7 @@ python train.py \
 cifar10 \
 --n_rounds ${n_rounds} \
 --participation_probs 1.0 ${participation} \
+--model_name custom \
 --bz 128 \
 --lr ${lr} \
 --log_freq 1 \
@@ -124,8 +125,7 @@ cifar10 \
 --verbose ${verbose} \
 --availability_matrix_path ${availability_matrix_path} \
 --biased ${biased} \
---fine_tuning ${fine_tuning} \
---grad_clip_threshold ${grad_clip_threshold}
+--fine_tuning ${fine_tuning}
 )
 done
 done

@@ -113,6 +113,7 @@ python train.py \
 cifar10 \
 --n_rounds ${n_rounds} \
 --participation_probs 1.0 ${participation} \
+--model_name custom \
 --bz 128 \
 --lr ${lr} \
 --log_freq 1 \
@@ -124,8 +125,7 @@ cifar10 \
 --verbose ${verbose} \
 --availability_matrix_path ${availability_matrix_path} \
 --biased ${biased} \
---fine_tuning ${fine_tuning} \
---grad_clip_threshold ${grad_clip_threshold}
+--fine_tuning ${fine_tuning}
 )
 done
 done
