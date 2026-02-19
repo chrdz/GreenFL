@@ -12,3 +12,5 @@ prob3_FedZero_2cb_1ft_155Rounds
 prob3_FedZero_3cb_1ft_160Rounds 
 prob3_FedZero_4cb_1ft_145Rounds 
 prob3_FedZero_5cb_1ft_110Rounds 
+prob2_CAFE_8cb_1ft_23Rounds 
+prob3_FedZero_8cb_1ft_23Rounds 
