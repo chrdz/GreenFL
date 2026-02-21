@@ -25,8 +25,8 @@ greenfl_venv_oldpytorch/
 # *.csv
 *.json
 # *.txt
-*.pt
-*.pkl
+# *.pt
+# *.pkl
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
