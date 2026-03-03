@@ -313,7 +313,7 @@ class Window:
         xticks = xticks[::2]
         ax.set_xticks(xticks)  # set new xticks
         plt.title(key_word)
-        plt.savefig(self.out_folder + "/" + key_word + ".png", bbox_inches="tight")
+        # plt.savefig(self.out_folder + "/" + key_word + ".png", bbox_inches="tight")
         plt.show()
 
     def save_availability_matrix(self, key_word, availability_matrix):
@@ -395,7 +395,7 @@ class Window:
         )
 
         self.plot_availability_heatmap(availability_df, key_word)
-        self.save_availability_matrix(key_word, availability_df)
+        # self.save_availability_matrix(key_word, availability_df)
         return availability_df, key_word
 
     def _find_largest_true_index(self, availability_matrix):
