@@ -11,8 +11,12 @@ av_mat_folder="availability_matrices_alphaFvar"
 # This is not the alpha-fairness parameter
 alpha="0.5" # distribution of data among clients: 0.1:non-iid, 100000:iid, 0: true iid
 generate_data=true #true/false true will regenerate the clients' datasets
-seed=12345
-dataseen_folder="dataseed_12345"
+dataseed=12345
+dataseed_folder="dataseed_12345"
+# dataseed=12346
+# dataseed_folder="dataseed_12346"
+# dataseed=12347
+# dataseed_folder="dataseed_12347"
 #######################################################
 
 
@@ -48,9 +52,10 @@ fi
 
 ### AVAILABILITY MATRIX ###
 # Which availability matrix/matrices are you using?
-availabilities="alphaF50-alpha0.001-7cb alphaF50-alpha0.01-7cb alphaF50-alpha0.1-7cb alphaF50-alpha1.0-7cb" #list of availability matrices
-availabilities="alphaF50-alpha0.001-8cb alphaF50-alpha0.01-8cb alphaF50-alpha0.1-8cb alphaF50-alpha1.0-8cb" #list of availability matrices
-availabilities="alphaF50-alpha0.001-10cb alphaF50-alpha0.01-10cb alphaF50-alpha0.1-10cb alphaF50-alpha1.0-10cb" #list of availability matrices
+# availabilities="alphaF50-alpha0.001-7cb alphaF50-alpha0.01-7cb alphaF50-alpha0.1-7cb alphaF50-alpha1.0-7cb" #list of availability matrices
+# availabilities="alphaF50-alpha0.001-8cb alphaF50-alpha0.01-8cb alphaF50-alpha0.1-8cb alphaF50-alpha1.0-8cb" #list of availability matrices
+# availabilities="alphaF50-alpha0.001-10cb alphaF50-alpha0.01-10cb alphaF50-alpha0.1-10cb alphaF50-alpha1.0-10cb" #list of availability matrices
+availabilities="alphaF50-alpha0.001-7cb" 
 
 # Does the av. mat. include a fine-tuning phase?
 # fine_tuning=3 # Change this to # of finetuning step
