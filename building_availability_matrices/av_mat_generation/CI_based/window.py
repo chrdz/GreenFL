@@ -104,6 +104,46 @@ def load_data(countries=None):
 
     return df_dict
 
+def load_data_custom(nb_countries=7):
+    """
+    Loads the CI data in df_dict a dictionary where key=country, value=dataframe of CI data.
+    Returns: df_dict
+    The columns of each dataframe are datetime, CI_direct, CI_LA.
+    The unit of the CI data is: gCO2eq/kWh.
+    """
+
+    folder = Path("historical_data")
+    usecols = [
+        "Datetime (UTC)",
+        "Carbon Intensity gCO₂eq/kWh (direct)",
+        "Carbon Intensity gCO₂eq/kWh (LCA)",
+    ]
+    df_dict = dict()
+
+    for p in folder.iterdir():
+        if p.name not in ['CR_2022_hourly.csv', 'AU-TAS_2022_hourly.csv', 'AU-SA_2022_hourly.csv', 'CA-QC_2022_hourly.csv']:
+            val = pd.read_csv(
+                p,
+                usecols=usecols + ["Country", "Zone Id"],
+                parse_dates=["Datetime (UTC)"],
+            ).rename(columns={
+                "Datetime (UTC)": "datetime",
+                "Carbon Intensity gCO₂eq/kWh (direct)": "CI_direct",
+                "Carbon Intensity gCO₂eq/kWh (LCA)": "CI_LCA"
+            })
+            country = val["Country"].iloc[0]+ "-" + val["Zone Id"].iloc[0]
+            df_dict[country] = val[["datetime", "CI_direct", "CI_LCA"]]
+
+    # extract sublist of countries based on clients number:
+    countries_list = list(df_dict.keys())
+    rng = random.Random(42)  # reproducible
+    rng.shuffle(countries_list)
+    countries_number=nb_countries
+    selected_countries = countries_list[:countries_number]
+    df_dict = {k: df_dict[k] for k in selected_countries}
+
+    return df_dict
+
 
 class Window:
 
@@ -115,10 +155,12 @@ class Window:
         countries=COUNTRIES,
         out_folder=MAIN_FOLDER,
         verbose=False,
+        custom_client_list=False
     ):
         self.n_rounds = n_rounds  # number of FL training rounds
         self.countries = countries
         self.verbose = verbose
+        self.custom_client_list=custom_client_list
 
         self.n_clients = len(countries)
         self._dfs = self._get_data()
@@ -141,7 +183,12 @@ class Window:
         """
         Fetch only necessary countries from the data folder
         """
-        return load_data(self.countries)
+        if self.custom_client_list==False:
+            return load_data(self.countries)
+        else:
+            df_dict=load_data_custom(self.custom_client_list)
+            self.countries = list(df_dict.keys())
+            return df_dict
 
     def _get_start_end_time(self, random_start):
         """
